@@ -1,0 +1,9 @@
+/build
+/CMakeFiles
+/.vscode
+Makefile
+makefile
+*.cmake
+CMakeCache.txt
+install_manifest.txt
+librandom_sinks.so
