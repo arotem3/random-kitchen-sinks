@@ -3,6 +3,20 @@
 #include <armadillo>
 
 namespace random_sinks {
+    arma::mat fwht(arma::mat X, bool apply_to_rows=true);
+
+    template<class T> inline T randchi(double df, uint m, uint n) { // T must be an armadillo Row, Col, or Mat type
+        return arma::sqrt(arma::chi2rnd<T>(df, m, n));
+    }
+
+    template<class T> inline T randchi(double df, uint n) { // T must be an armadillow Row or Col type
+        return arma::sqrt(arma::chi2rnd<T>(df, n));
+    }
+
+    inline double randchi(double df) {
+        return std::sqrt(arma::chi2rnd<double>(df));
+    }
+    
     class RFF {
         private:
         arma::mat _w;
@@ -19,15 +33,9 @@ namespace random_sinks {
         arma::mat get_features(const arma::mat& X);
     };
 
-    arma::mat fwht(arma::mat X, bool apply_to_rows=true);
-
-    inline arma::vec randchi(double df, uint n) {
-        return arma::sqrt(arma::chi2rnd(df, n));
-    }
-
     class fastfood {
         private:
-        arma::vec _B, _G, _S, _b;
+        arma::rowvec _B, _G, _S, _b;
         arma::uvec _P;
         int _dim, _nfs, _d;
         double _gamma;

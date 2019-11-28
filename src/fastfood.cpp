@@ -20,11 +20,11 @@ random_sinks::fastfood::fastfood(double gamma, int n_feats, int seed) {
 void random_sinks::fastfood::fit(const arma::mat& X) {
     _dim = X.n_cols;
     _d = std::exp2(std::ceil(std::log2(_nfs)));
-    _B = 2*arma::randi<arma::vec>(_nfs, arma::distr_param(0,1)) - 1;
+    _B = 2*arma::randi<arma::rowvec>(_nfs, arma::distr_param(0,1)) - 1;
     _P = arma::randperm(_nfs);
-    _G = arma::randn(_nfs);
-    _S = 2*_gamma / (std::sqrt(_d)*arma::norm(_G,2)) * random_sinks::randchi(_d, _nfs);
-    _b = arma::randu(_nfs) * (2*M_PI);
+    _G = arma::randn<arma::rowvec>(_nfs);
+    _S = 2*_gamma / (std::sqrt(_d)*arma::norm(_G,2)) * random_sinks::randchi<arma::rowvec>(_d, _nfs);
+    _b = arma::randu<arma::rowvec>(_nfs) * (2*M_PI);
 }
 
 /* get_features(x) : evaluate random features.
@@ -52,7 +52,7 @@ arma::mat random_sinks::fastfood::get_features(arma::mat X) {
         }
     } else {
         for (int i=0; i < _nfs; i+=_d) {
-            WX.cols(i, i+_d-1) = fwht(X.each_row() % _B.rows(i,i+_d-1));
+            WX.cols(i, i+_d-1) = fwht(X.each_row() % _B.cols(i,i+_d-1));
         }
         WX = WX.cols(_P);
         WX.each_row() %= _G;

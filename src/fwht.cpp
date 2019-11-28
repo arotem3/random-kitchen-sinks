@@ -1,8 +1,7 @@
 #include <random_kitchen_sinks.hpp>
 
-bool is_pwr2(int k) {
-    int e = std::floor(std::log2(k));
-    return (std::exp2(e) == k);
+bool is_pwr2(ulong k) {
+    return (k != 0) && ((k & (k - 1)) == 0);
 }
 
 /* fwht(X, apply_to_rows=true) : compute the Fast Walsh-Hadamard transform 
@@ -15,10 +14,10 @@ arma::mat random_sinks::fwht(arma::mat X, bool apply_to_rows) {
     }
     if (X.n_rows == 1) apply_to_rows = true;
     if (X.n_cols == 1) apply_to_rows = false;
-    if (apply_to_rows && !is_pwr2(X.n_rows)) {
+    if (apply_to_rows && !is_pwr2(X.n_cols)) {
         std::string excpt = "fwht() error: cannot apply transformation to rows because the number of columns is not a power of 2 (X.n_cols = " + std::to_string(X.n_cols) + ").\n";
         throw std::runtime_error(excpt);
-    } else if (!apply_to_rows && !is_pwr2(X.n_cols)) {
+    } else if (!apply_to_rows && !is_pwr2(X.n_rows)) {
         std::string excpt = "fwht() error: cannot apply transformation to columns because the number of rows is not a power of 2 (X.n_rows = " + std::to_string(X.n_rows) + ").\n";
         throw std::runtime_error(excpt);
     }
