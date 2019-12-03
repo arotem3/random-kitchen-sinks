@@ -21,3 +21,5 @@ Felix, X Yu et al. (2016). “Orthogonal random features”. In: Advances in Neu
 
 Quoc Le, Tam ́as Sarl ́os and Alex Smola (2013).
 “Fastfood-approximating kernel expansions in loglinear time”. In: Proceedings of the international conference on machine learning vol. 85.
+
+Halko, Nathan, Per-Gunnar Martinsson, and Joel A. Tropp (2009). “Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions”. In: SIAM vol. 53, pp. 217–288.
