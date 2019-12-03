@@ -72,6 +72,7 @@ namespace random_sinks {
         public:
         const arma::mat& components;
         const arma::vec& cov_eigenvals;
+        const int& n_components;
 
         tPCA(uint n_components, std::string method="rSVD");
         void fit(arma::mat X, uint max_iter=10, double tol=1e-8, bool zero_mean=false);
@@ -82,17 +83,20 @@ namespace random_sinks {
 
     class gauss_nystrom {
         private:
-        arma::mat _data;
+        arma::mat _data, _V, _U;
+        arma::vec _s;
         arma::rowvec  _stds;
         double _gamma;
-        tPCA pca;
-        int _dim;
+        int _dim, _nfs;
         arma::mat _eval_kernel(arma::mat X);
         arma::mat _eval_kernel();
 
         public:
-        gauss_nystrom(uint n_components, double gamma=1, std::string method="rSVD");
-        void fit(arma::mat X, uint max_iter=10, double tol=1e-8);
+        const arma::vec& kernel_singular_vals;
+        const arma::mat& kernel_left_vecs;
+        const arma::mat& kernel_right_vecs;
+        gauss_nystrom(uint n_feats=128, double gamma=1, int seed=-1);
+        void fit(arma::mat X, std::string method="powerSVD", uint max_iter=10, double tol=1e-8);
         arma::mat get_features(arma::mat X);
     };
 }

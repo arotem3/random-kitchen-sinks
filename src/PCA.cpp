@@ -9,12 +9,10 @@
 double random_sinks::powerSVD(arma::mat& U, arma::vec& s, arma::mat& V, const arma::mat& X, uint n_comps, uint max_iter, double tol) {
     if (n_comps == 0) {
         std::string s = "powerSVD() error: n_components must be greater than zero.\n";
-        throw std::logic_error(s);
+        throw std::runtime_error(s);
     } else if (n_comps > X.n_cols) {
         std::string s = "powerSVD() error: number of components requested (=" + std::to_string(n_comps) + ") exceeds number of columns in X (X.n_cols=" + std::to_string(X.n_cols) + ")\n";
-        throw std::logic_error(s);
-    } else if (n_comps > 0.75*X.n_cols) {
-        std::cerr << "powerSVD() warning: number of components requested (=" << n_comps << ") is relatively large (X.n_cols=" << X.n_cols << ") it may be more efficient to compute the full SVD instead.\n";
+        throw std::runtime_error(s);
     }
 
     double err;
@@ -61,10 +59,10 @@ double random_sinks::powerSVD(arma::mat& U, arma::vec& s, arma::mat& V, const ar
 void random_sinks::rSVD(arma::mat& U, arma::vec& s, arma::mat& V, const arma::mat& X, uint n_comps) {
     if (n_comps == 0) {
         std::string s = "rSVD() error: n_components must be greater than zero.\n";
-        throw std::logic_error(s);
+        throw std::runtime_error(s);
     } else if (n_comps > X.n_cols) {
         std::string s = "rpwrSVD() error: number of components requested (=" + std::to_string(n_comps) + ") exceeds number of columns in X (X.n_cols=" + std::to_string(X.n_cols) + ")\n";
-        throw std::logic_error(s);
+        throw std::runtime_error(s);
     } else if (n_comps > 0.75*X.n_cols) {
         std::cerr << "rpwrSVD() warning: number of components requested (=" << n_comps << ") is relatively large (X.n_cols=" << X.n_cols << ") it may be more efficient to compute the full SVD instead.\n";
     }
@@ -91,12 +89,12 @@ void random_sinks::rSVD(arma::mat& U, arma::vec& s, arma::mat& V, const arma::ma
 /* tPCA(n_components, method="rSVD") : initialize truncated PCA object.
  * --- n_components : number of principle components to compute.
  * --- method : method to compute PCA with, either "rSVD" or "powerSVD" */
-random_sinks::tPCA::tPCA(uint n_components, std::string method) : components(_V), cov_eigenvals(_s) {
+random_sinks::tPCA::tPCA(uint n_components, std::string method) : components(_V), cov_eigenvals(_s), n_components(_n_comps) {
     if (method == "rSVD") _use_rSVD = true;
     else if (method == "powerSVD") _use_rSVD = false;
     else {
         std::string s = "tPCA() error: method must be one of {\"rSVD\", \"powerSVD\"}. Method requested was \"" + method + "\".\n";
-        throw std::logic_error(s);
+        throw std::runtime_error(s);
     }
     _n_comps = n_components;
 }
