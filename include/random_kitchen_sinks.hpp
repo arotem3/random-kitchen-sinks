@@ -46,6 +46,18 @@ namespace random_sinks {
         arma::mat get_features(arma::mat X);
     };
 
+    class SORF {
+        private:
+        arma::rowvec _B1, _B2, _B3, _b;
+        int _dim, _d, _nfs;
+        double _gamma;
+
+        public:
+        SORF(double gamma=1, int n_feats=128, int seed=-1);
+        void fit(const arma::mat& X);
+        arma::mat get_features(arma::mat X);
+    };
+
     void rSVD(arma::mat& U, arma::vec& s, arma::mat& V, const arma::mat& X, uint n_comps);
     double powerSVD(arma::mat& U, arma::vec& s, arma::mat& V, const arma::mat& X, uint n_comps, uint max_iter=10, double tol=1e-8);
 

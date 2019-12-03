@@ -11,6 +11,7 @@ add_library(random_sinks SHARED
 
         src/RFF.cpp
         src/fastfood.cpp
+        src/sorf.cpp
         src/fwht.cpp
         src/PCA.cpp
         src/nystrom.cpp
