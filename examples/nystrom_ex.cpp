@@ -3,7 +3,7 @@
 // g++ -g -Wall -o nystrom_ex nystrom_ex.cpp -lrandom_sinks -larmadillo
 
 int main() {
-    arma::mat X = arma::randu(1000, 200);
+    arma::mat X = arma::randn(1000, 200);
 
     double gamma = 1; int n_features = 30;
     std::string method = "powerSVD"; // uses random_sinks::powerSVD

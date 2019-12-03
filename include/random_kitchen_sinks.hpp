@@ -85,7 +85,7 @@ namespace random_sinks {
         private:
         arma::mat _data, _V, _U;
         arma::vec _s;
-        arma::rowvec  _stds;
+        arma::rowvec  _stds, _means;
         double _gamma;
         int _dim, _nfs;
         arma::mat _eval_kernel(arma::mat X);
@@ -95,8 +95,9 @@ namespace random_sinks {
         const arma::vec& kernel_singular_vals;
         const arma::mat& kernel_left_vecs;
         const arma::mat& kernel_right_vecs;
+        const int& n_features;
         gauss_nystrom(uint n_feats=128, double gamma=1, int seed=-1);
-        void fit(arma::mat X, std::string method="powerSVD", uint max_iter=10, double tol=1e-8);
+        void fit(arma::mat X, std::string method="powerSVD", uint max_iter=20, double tol=1e-10);
         arma::mat get_features(arma::mat X);
     };
 }
